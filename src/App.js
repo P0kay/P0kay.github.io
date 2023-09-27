@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { NavLink } from 'react-router-dom';
+import './App.scss';
+import expandImage from './images/expand.png'
+import { useRef } from 'react';
 
 function App() {
+  const navRef = useRef(null)
+  const showNavTab = () => {
+    navRef.current.classList.toggle('-left-full')
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+    <div className='App'>
+      <nav className='text-neutral-100 text-2xl'>
+        <ul className='flex max-lg:hidden'>
+          <li className="m-6 cursor-pointer hover:text-neutral-400">
+            <NavLink to='/'>
+              About me
+            </NavLink>
+          </li>
+          <li className="m-6 cursor-pointer hover:text-neutral-400">
+            <NavLink to='/'>
+              My projects
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+      <img src={expandImage} alt="" className='lg:hidden w-10 m-6 cursor-pointer absolute z-10' onClick={showNavTab} />
+      <nav className='text-neutral-100 bg-neutral-500 text-2xl lg:hidden absolute -left-full top-0 h-screen w-1/4' ref={navRef}>
+        <ul className='pt-6 text-2xl'>
+          <li className="cursor-pointer hover:text-neutral-400 text-center m-10 mt-20">
+            <NavLink to='/'>
+              About me
+            </NavLink>
+          </li>
+          <li className="cursor-pointer hover:text-neutral-400 text-center m-10">
+            <NavLink to='/projects'>
+              My projects
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+      <div className='p-14'>
+        <p className="text-neutral-100 text-5xl text-center">
+          Jakub Szymański
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      </div>
     </div>
   );
 }
