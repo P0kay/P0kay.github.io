@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import Card from "./Card";
 
 function Memory() {
-    const animalList = ['frog', 'fox', 'cat', 'dog', 'capibara']
+    const animalList = [
+        { name: 'frog' },
+        { name: 'fox' },
+        { name: 'cat' },
+        { name: 'dog' },
+        { name: 'capibara' }]
     const [shuffledMemoryList, setShuffledMemoryList] = useState([])
     const startButtonRef = useRef(null)
     const [chosenCards, setChosenCards] = useState([])
@@ -18,16 +23,16 @@ function Memory() {
         let tempArr = []
         for (let i = arr.length - 1; i >= 0; i--) {
             let idx = Math.floor(Math.random() * (i + 1))
-            tempArr.push(arr[idx])
+            tempArr.push({ ...arr[idx], isEnabled: true })
             arr.splice(idx, 1)
         }
         return tempArr
     }
 
-    const revealCardAnimation = ({ children, cardRef }) => {
+    const revealCardAnimation = ({ name, cardRef }) => {
         cardRef.current.innerHTML = ''
         cardRef.current.animate([
-            { backgroundImage: `url("/animal_images/${children}.png")` }
+            { backgroundImage: `url("/animal_images/${name}.png")` }
         ],
             {
                 duration: 250,
@@ -66,23 +71,30 @@ function Memory() {
             })
     }
 
-    const revealCard = ({ children, cardRef }) => {
-        revealCardAnimation({ children, cardRef })
-        setChosenCards(prev => [...prev, cardRef])
+    const revealCard = ({ name, cardRef, idx }) => {
+        revealCardAnimation({ name, cardRef })
+        shuffledMemoryList[idx].isEnabled = false
+        setChosenCards(prev => [...prev, { cardRef, idx }])
         cardRef.current.classList.toggle('cursor-pointer')
-        // console.log(cardRef.current.onclick = () => { })
     }
 
     useEffect(() => {
         if (chosenCards.length === 2) {
-            if (chosenCards[0].current.id === chosenCards[1].current.id) {
+            if (chosenCards[0].cardRef.current.id === chosenCards[1].cardRef.current.id) {
                 setCardsGuessedCorrectly(prev => prev + 1)
             }
             else {
-                chosenCards.forEach((cardRef) => {
+                chosenCards.forEach(({ cardRef }) => {
                     hideCardAnimation(cardRef)
                 })
             }
+            // shuffledMemoryList.forEach((card) => {
+            //     card.isEnabled = false
+            // })
+            // await new Promise(r => setTimeout(r, 1000));
+            // shuffledMemoryList.forEach((card) => {
+            //     card.isEnabled = true
+            // })
             setChosenCards([])
         }
     }, [chosenCards])
@@ -92,6 +104,7 @@ function Memory() {
             console.log("You won")
         }
     }, [cardsGuessedCorretly])
+
     return (
         <div className="flex flex-col">
             <p className="text-5xl mb-14 text-center">Memory</p>
@@ -102,9 +115,9 @@ function Memory() {
                 Start
             </button>
             <div className="flex gap-10 flex-wrap justify-center">
-                {shuffledMemoryList.map((animal, idx) =>
-                    <Card key={`${animal}${idx}`} revealCard={revealCard}>
-                        {animal}
+                {shuffledMemoryList.map(({ name, isEnabled }, idx) =>
+                    <Card key={`${name}${idx}`} revealCard={revealCard} name={name} isEnabled={isEnabled} idx={idx}>
+                        {name}
                     </Card>
                 )}
             </div>
