@@ -10,7 +10,7 @@ function Nav() {
   }
   return (
     <div className='App'>
-      <nav className='text-neutral-100 text-2xl'>
+      <nav className='text-neutral-100 text-2xl fixed top-0 bg-neutral-500 w-[100%]'>
         <ul className='flex max-lg:hidden'>
           <li className="m-6 cursor-pointer hover:text-neutral-400">
             <NavLink to='about_me'>

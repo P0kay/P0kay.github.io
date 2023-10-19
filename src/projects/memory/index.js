@@ -8,6 +8,7 @@ function Memory() {
         { name: 'cat' },
         { name: 'dog' },
         { name: 'capibara' }]
+
     const [shuffledMemoryList, setShuffledMemoryList] = useState([])
     const startButtonRef = useRef(null)
     const [chosenCards, setChosenCards] = useState([])
@@ -50,54 +51,61 @@ function Memory() {
             })
     }
 
-    const hideCardAnimation = async (cardRef) => {
+    const hideCardsAnimation = async (cardRefs) => {
         await new Promise(r => setTimeout(r, 1000));
-        cardRef.current.animate([
-            { backgroundImage: 'none' }
-        ],
-            {
-                duration: 250,
-                iterations: 1,
-                fill: 'forwards'
-            }
-        )
-        cardRef.current.animate([
-            { transform: 'rotate3d(0,20,0,0deg)' },
-        ],
-            {
-                duration: 250,
-                iterations: 1,
-                fill: 'forwards'
+        await new Promise((resolve, reject) => {
+            cardRefs.forEach((cardRef) => {
+                cardRef.current.animate([
+                    { backgroundImage: 'none' }
+                ],
+                    {
+                        duration: 250,
+                        iterations: 1,
+                        fill: 'forwards'
+                    }
+                )
+                cardRef.current.animate([
+                    { transform: 'rotate3d(0,20,0,0deg)' },
+                ],
+                    {
+                        duration: 250,
+                        iterations: 1,
+                        fill: 'forwards'
+                    })
             })
+            resolve()
+        })
     }
 
     const revealCard = ({ name, cardRef, idx }) => {
-        revealCardAnimation({ name, cardRef })
         shuffledMemoryList[idx].isEnabled = false
-        setChosenCards(prev => [...prev, { cardRef, idx }])
-        cardRef.current.classList.toggle('cursor-pointer')
+        revealCardAnimation({ name, cardRef })
+        setChosenCards(prev => [...prev, cardRef])
     }
 
     useEffect(() => {
         if (chosenCards.length === 2) {
-            if (chosenCards[0].cardRef.current.id === chosenCards[1].cardRef.current.id) {
+            if (chosenCards[0].current.id === chosenCards[1].current.id) {
                 setCardsGuessedCorrectly(prev => prev + 1)
             }
             else {
-                chosenCards.forEach(({ cardRef }) => {
-                    hideCardAnimation(cardRef)
+                shuffledMemoryList.forEach((memoryCard) => {
+                    memoryCard.isEnabled = false
                 })
+                hideCardsAnimation(chosenCards)
+                    .then(() => {
+                        console.log()
+                        const tempShuffledMemoryList = [...shuffledMemoryList]
+                        tempShuffledMemoryList.forEach((memoryCard) => {
+                            memoryCard.isEnabled = true
+                        })
+                        setShuffledMemoryList(tempShuffledMemoryList)
+                    })
             }
-            // shuffledMemoryList.forEach((card) => {
-            //     card.isEnabled = false
-            // })
-            // await new Promise(r => setTimeout(r, 1000));
-            // shuffledMemoryList.forEach((card) => {
-            //     card.isEnabled = true
-            // })
             setChosenCards([])
         }
     }, [chosenCards])
+
 
     useEffect(() => {
         if (cardsGuessedCorretly === animalList.length) {
@@ -106,15 +114,15 @@ function Memory() {
     }, [cardsGuessedCorretly])
 
     return (
-        <div className="flex flex-col">
-            <p className="text-5xl mb-14 text-center">Memory</p>
+        <div className="flex flex-col items-center">
+            <p className="text-5xl mb-14 text-center mt-32">Memory</p>
             <button className='text-3xl '
                 onClick={() => {
                     startMemoryGame()
                 }} ref={startButtonRef}>
                 Start
             </button>
-            <div className="flex gap-10 flex-wrap justify-center">
+            <div className="grid xl:grid-cols-4 sm:grid-cols-3 justify-items-center gap-14 mx-20 w-[60%]">
                 {shuffledMemoryList.map(({ name, isEnabled }, idx) =>
                     <Card key={`${name}${idx}`} revealCard={revealCard} name={name} isEnabled={isEnabled} idx={idx}>
                         {name}
