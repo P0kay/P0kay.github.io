@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import Memory from '../images/memory.png'
 
 function Projects() {
     const project_list = ['memory']
@@ -7,9 +8,9 @@ function Projects() {
             {project_list.map(project =>
                 <NavLink to={project} className='cursor-pointer pt-32'>
                     <div key='project' className="m-10 p-10 border rounded-lg w-80 h-80">
-                        <div className="bg-stone-500 h-[75%]" />
-                        <div className="text-center mt-5">
-                            {project}
+                        <img src={Memory} alt="Memory" />
+                        <div className="text-center mt-5 text-3xl">
+                            {project.toUpperCase()}
                         </div>
                     </div>
                 </NavLink>

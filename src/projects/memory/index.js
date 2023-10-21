@@ -2,15 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import Card from "./Card";
 
 function Memory() {
-    const animalList = [
-        { name: 'frog' },
-        { name: 'fox' },
-        { name: 'cat' },
-        { name: 'dog' },
-        { name: 'capibara' }]
-
+    const animalList = ['frog', 'fox', 'cat', 'dog', 'capibara', 'owl']
     const [shuffledMemoryList, setShuffledMemoryList] = useState([])
     const startButtonRef = useRef(null)
+    const cardContainerRef = useRef(null)
     const [chosenCards, setChosenCards] = useState([])
     const [cardsGuessedCorretly, setCardsGuessedCorrectly] = useState(0)
 
@@ -24,7 +19,7 @@ function Memory() {
         let tempArr = []
         for (let i = arr.length - 1; i >= 0; i--) {
             let idx = Math.floor(Math.random() * (i + 1))
-            tempArr.push({ ...arr[idx], isEnabled: true })
+            tempArr.push({ name: arr[idx], isEnabled: true })
             arr.splice(idx, 1)
         }
         return tempArr
@@ -53,7 +48,7 @@ function Memory() {
 
     const hideCardsAnimation = async (cardRefs) => {
         await new Promise(r => setTimeout(r, 1000));
-        await new Promise((resolve, reject) => {
+        new Promise((resolve, reject) => {
             cardRefs.forEach((cardRef) => {
                 cardRef.current.animate([
                     { backgroundImage: 'none' }
@@ -72,6 +67,7 @@ function Memory() {
                         iterations: 1,
                         fill: 'forwards'
                     })
+                cardRef.current.innerHTML = 'M'
             })
             resolve()
         })
@@ -94,7 +90,6 @@ function Memory() {
                 })
                 hideCardsAnimation(chosenCards)
                     .then(() => {
-                        console.log()
                         const tempShuffledMemoryList = [...shuffledMemoryList]
                         tempShuffledMemoryList.forEach((memoryCard) => {
                             memoryCard.isEnabled = true
@@ -109,20 +104,20 @@ function Memory() {
 
     useEffect(() => {
         if (cardsGuessedCorretly === animalList.length) {
-            console.log("You won")
+            cardContainerRef.current.replaceChildren()
         }
     }, [cardsGuessedCorretly])
 
     return (
         <div className="flex flex-col items-center">
-            <p className="text-5xl mb-14 text-center mt-32">Memory</p>
-            <button className='text-3xl '
+            {/* <p className="text-5xl mb-14 text-center fixed top-0 z-20 mt-3">Memory</p> */}
+            <button className='text-6xl hover:text-red-700 mt-96'
                 onClick={() => {
                     startMemoryGame()
                 }} ref={startButtonRef}>
                 Start
             </button>
-            <div className="grid xl:grid-cols-4 sm:grid-cols-3 justify-items-center gap-14 mx-20 w-[60%]">
+            <div className="grid xl:grid-cols-4 sm:grid-cols-3 justify-items-center gap-12 mt-32" ref={cardContainerRef}>
                 {shuffledMemoryList.map(({ name, isEnabled }, idx) =>
                     <Card key={`${name}${idx}`} revealCard={revealCard} name={name} isEnabled={isEnabled} idx={idx}>
                         {name}

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
-import Nav from './Nav';
+import App from './App';
 import Projects from './projects';
 import store from './redux/store'
 import { Provider } from 'react-redux'
@@ -15,7 +15,7 @@ import Memory from './projects/memory';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Nav />,
+    element: <App />,
     children: [
       {
         path: 'projects',
