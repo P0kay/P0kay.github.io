@@ -6,12 +6,15 @@ function Memory() {
     const [shuffledMemoryList, setShuffledMemoryList] = useState([])
     const startButtonRef = useRef(null)
     const cardContainerRef = useRef(null)
+    const timeRef = useRef(null)
     const [chosenCards, setChosenCards] = useState([])
     const [cardsGuessedCorretly, setCardsGuessedCorrectly] = useState(0)
+    const [startDate, setStartDate] = useState(null)
 
     const startMemoryGame = () => {
         setShuffledMemoryList(shuffleArray(animalList))
         startButtonRef.current.remove()
+        setStartDate(new Date())
     }
 
     const shuffleArray = (arr) => {
@@ -108,15 +111,51 @@ function Memory() {
         }
     }, [cardsGuessedCorretly])
 
+    useEffect(() => {
+        let interval
+        if (startDate !== null) {
+            interval = setInterval(() => {
+                let currentDate = new Date()
+                let timePassed = currentDate.getTime() - startDate.getTime()
+                let millisecondsPassed
+                let secondsPassed
+                let minutesPassed
+                if (timePassed % 1000 < 100) {
+                    millisecondsPassed = `0${Math.floor((timePassed % 1000) / 10)}`
+                }
+                else {
+                    millisecondsPassed = `${Math.floor((timePassed % 1000) / 10)}`
+                }
+                if (Math.floor(timePassed / 1000) % 60 < 10) {
+                    secondsPassed = `0${Math.floor(timePassed / 1000) % 60}`
+                }
+                else {
+                    secondsPassed = `${Math.floor(timePassed / 1000) % 60}`
+                }
+                if (Math.floor(timePassed / 60000) < 10) {
+                    minutesPassed = `0${Math.floor(timePassed / 60000)}`
+                }
+                else {
+                    minutesPassed = `${Math.floor(timePassed / 60000)}`
+                }
+                timeRef.current.innerHTML = `${minutesPassed}:${secondsPassed}:${millisecondsPassed}`
+            }, 10)
+        }
+        return () => {
+            clearInterval(interval)
+        }
+    }, [startDate])
+
     return (
         <div className="flex flex-col items-center">
-            {/* <p className="text-5xl mb-14 text-center fixed top-0 z-20 mt-3">Memory</p> */}
+            <p className="text-5xl mb-14 text-center fixed top-0 z-20 mt-3">Memory</p>
             <button className='text-6xl hover:text-red-700 mt-96'
                 onClick={() => {
                     startMemoryGame()
                 }} ref={startButtonRef}>
                 Start
             </button>
+            <div ref={timeRef} className="mt-32 absolute"></div>
             <div className="grid xl:grid-cols-4 sm:grid-cols-3 justify-items-center gap-12 mt-32" ref={cardContainerRef}>
                 {shuffledMemoryList.map(({ name, isEnabled }, idx) =>
                     <Card key={`${name}${idx}`} revealCard={revealCard} name={name} isEnabled={isEnabled} idx={idx}>
