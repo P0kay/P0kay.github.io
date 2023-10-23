@@ -10,6 +10,8 @@ function Memory() {
     const [chosenCards, setChosenCards] = useState([])
     const [cardsGuessedCorretly, setCardsGuessedCorrectly] = useState(0)
     const [startDate, setStartDate] = useState(null)
+    const [compares, setCompares] = useState(0)
+    const [timerInterval, setTimerInterval] = useState(null)
 
     const startMemoryGame = () => {
         setShuffledMemoryList(shuffleArray(animalList))
@@ -82,6 +84,40 @@ function Memory() {
         setChosenCards(prev => [...prev, cardRef])
     }
 
+    const confettiAnimation = () => {
+        const duration = 3 * 1000,
+            animationEnd = Date.now() + duration,
+            defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        const interval = setInterval(function () {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            const particleCount = 50 * (timeLeft / duration);
+
+            // since particles fall down, start a bit higher than random
+            window.confetti(
+                Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                })
+            );
+            window.confetti(
+                Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                })
+            );
+        }, 250);
+    }
+
     useEffect(() => {
         if (chosenCards.length === 2) {
             if (chosenCards[0].current.id === chosenCards[1].current.id) {
@@ -100,6 +136,7 @@ function Memory() {
                         setShuffledMemoryList(tempShuffledMemoryList)
                     })
             }
+            setCompares(prev => prev + 1)
             setChosenCards([])
         }
     }, [chosenCards])
@@ -107,14 +144,19 @@ function Memory() {
 
     useEffect(() => {
         if (cardsGuessedCorretly === animalList.length) {
-            cardContainerRef.current.replaceChildren()
+            clearInterval(timerInterval)
+            confettiAnimation()
+            const tempShuffledMemoryList = [...shuffledMemoryList]
+            tempShuffledMemoryList.forEach((memoryCard) => {
+                memoryCard.isEnabled = false
+            })
+            setShuffledMemoryList(tempShuffledMemoryList)
         }
     }, [cardsGuessedCorretly])
 
     useEffect(() => {
-        let interval
         if (startDate !== null) {
-            interval = setInterval(() => {
+            setTimerInterval(setInterval(() => {
                 let currentDate = new Date()
                 let timePassed = currentDate.getTime() - startDate.getTime()
                 let millisecondsPassed
@@ -139,24 +181,27 @@ function Memory() {
                     minutesPassed = `${Math.floor(timePassed / 60000)}`
                 }
                 timeRef.current.innerHTML = `${minutesPassed}:${secondsPassed}:${millisecondsPassed}`
-            }, 10)
+            }, 10))
         }
         return () => {
-            clearInterval(interval)
+            clearInterval(timerInterval)
         }
     }, [startDate])
 
     return (
-        <div className="flex flex-col items-center">
-            <p className="text-5xl mb-14 text-center fixed top-0 z-20 mt-3">Memory</p>
-            <button className='text-6xl hover:text-red-700 mt-96'
+        <div className="flex flex-col items-center h-screen justify-center">
+            <p className="text-5xl mb-14 text-center fixed top-0 z-20 lg:mt-3 mt-9">Memory</p>
+            <button className='text-6xl hover:text-red-700'
                 onClick={() => {
                     startMemoryGame()
                 }} ref={startButtonRef}>
                 Start
             </button>
-            <div ref={timeRef} className="mt-32 absolute"></div>
-            <div className="grid xl:grid-cols-4 sm:grid-cols-3 justify-items-center gap-12 mt-32" ref={cardContainerRef}>
+            <div className="flex gap-4 mb-6 text-2xl">
+                <div ref={timeRef}></div>
+                {startDate && <div>Compares: {compares}</div>}
+            </div>
+            <div className="grid xl:grid-cols-4 sm:grid-cols-3 justify-items-center gap-12" ref={cardContainerRef}>
                 {shuffledMemoryList.map(({ name, isEnabled }, idx) =>
                     <Card key={`${name}${idx}`} revealCard={revealCard} name={name} isEnabled={isEnabled} idx={idx}>
                         {name}
