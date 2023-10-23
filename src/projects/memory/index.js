@@ -8,7 +8,7 @@ function Memory() {
     const cardContainerRef = useRef(null)
     const timeRef = useRef(null)
     const [chosenCards, setChosenCards] = useState([])
-    const [cardsGuessedCorretly, setCardsGuessedCorrectly] = useState(0)
+    const [cardsGuessedCorretly, setCardsGuessedCorrectly] = useState([])
     const [startDate, setStartDate] = useState(null)
     const [compares, setCompares] = useState(0)
     const [timerInterval, setTimerInterval] = useState(null)
@@ -121,7 +121,7 @@ function Memory() {
     useEffect(() => {
         if (chosenCards.length === 2) {
             if (chosenCards[0].current.id === chosenCards[1].current.id) {
-                setCardsGuessedCorrectly(prev => prev + 1)
+                setCardsGuessedCorrectly(prev => [...prev, chosenCards[0].current.id])
             }
             else {
                 shuffledMemoryList.forEach((memoryCard) => {
@@ -131,7 +131,9 @@ function Memory() {
                     .then(() => {
                         const tempShuffledMemoryList = [...shuffledMemoryList]
                         tempShuffledMemoryList.forEach((memoryCard) => {
-                            memoryCard.isEnabled = true
+                            if (cardsGuessedCorretly.indexOf(memoryCard.name) == -1) {
+                                memoryCard.isEnabled = true
+                            }
                         })
                         setShuffledMemoryList(tempShuffledMemoryList)
                     })
@@ -143,7 +145,7 @@ function Memory() {
 
 
     useEffect(() => {
-        if (cardsGuessedCorretly === animalList.length) {
+        if (cardsGuessedCorretly.length === animalList.length) {
             clearInterval(timerInterval)
             confettiAnimation()
             const tempShuffledMemoryList = [...shuffledMemoryList]
