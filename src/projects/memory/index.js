@@ -3,7 +3,8 @@ import Card from "./Card";
 
 
 function Memory() {
-    const animalList = ['frog', 'fox', /*'cat', 'dog', 'capibara', 'owl'*/]
+    const animalList = ['frog', 'fox', 'cat', 'dog', 'capibara', 'owl', 'lion', 'parrot', 'panda', 'duck', 'turtle', 'sheep', 'penguin', 'kangaroo', 'rabbit', 'hippo', 'hedgehog', 'bear']
+    const timeOfCardAnimation = 250
     const startButtonRef = useRef(null)
     const cardContainerRef = useRef(null)
     const timerRef = useRef(null)
@@ -17,6 +18,9 @@ function Memory() {
     const [showModal, setShowModal] = useState(false);
 
     const startMemoryGame = () => {
+        if (cardContainerRef.current.children.length > 0) {
+            console.log(cardContainerRef.current.children)
+        }
         startButtonRef.current.remove()
         setStartDate(new Date())
         setComparisons(0)
@@ -42,7 +46,7 @@ function Memory() {
             { backgroundImage: `url("/animal_images/${name}.png")` }
         ],
             {
-                duration: 250,
+                duration: timeOfCardAnimation,
                 iterations: 1,
                 fill: 'forwards'
             }
@@ -51,21 +55,20 @@ function Memory() {
             { transform: 'rotate3d(0,20,0,180deg)' },
         ],
             {
-                duration: 250,
+                duration: timeOfCardAnimation,
                 iterations: 1,
                 fill: 'forwards'
             })
     }
 
     const hideCardsAnimation = async (cardRefs) => {
-        let timeOfAnimation = 250
         await new Promise(r => setTimeout(r, 1000));
         cardRefs.forEach(async (cardRef) => {
             cardRef.current.animate([
                 { backgroundImage: 'none' }
             ],
                 {
-                    duration: timeOfAnimation,
+                    duration: timeOfCardAnimation,
                     iterations: 1,
                     fill: 'forwards'
                 }
@@ -74,11 +77,11 @@ function Memory() {
                 { transform: 'rotate3d(0,20,0,0deg)' },
             ],
                 {
-                    duration: timeOfAnimation,
+                    duration: timeOfCardAnimation,
                     iterations: 1,
                     fill: 'forwards'
                 })
-            await new Promise(r => setTimeout(r, timeOfAnimation / 2));
+            await new Promise(r => setTimeout(r, timeOfCardAnimation / 2));
             cardRef.current.innerHTML = 'M'
         })
     }
@@ -152,12 +155,31 @@ function Memory() {
         if (cardsGuessedCorretly.length === animalList.length) {
             clearInterval(timerInterval)
             confettiAnimation()
-            setShowModal(true)
-            const tempShuffledMemoryList = [...shuffledMemoryList]
-            tempShuffledMemoryList.forEach((memoryCard) => {
-                memoryCard.isEnabled = false
+            new Promise(r => setTimeout(r, 1000)).then(() => {
+                for (let i = 0; i < cardContainerRef.current.children.length; i++) {
+                    cardContainerRef.current.children[i].animate([
+                        { backgroundImage: 'none' }
+                    ],
+                        {
+                            duration: timeOfCardAnimation,
+                            iterations: 1,
+                            fill: 'forwards'
+                        }
+                    )
+                    cardContainerRef.current.children[i].animate([
+                        { transform: 'rotate3d(0,20,0,0deg)' },
+                    ],
+                        {
+                            duration: timeOfCardAnimation,
+                            iterations: 1,
+                            fill: 'forwards'
+                        })
+                    new Promise(r => setTimeout(r, timeOfCardAnimation / 2)).then(() => {
+                        cardContainerRef.current.children[i].innerHTML = 'M'
+                    })
+                }
+                setShowModal(true)
             })
-            setShuffledMemoryList(tempShuffledMemoryList)
         }
     }, [cardsGuessedCorretly])
 
@@ -209,72 +231,68 @@ function Memory() {
                 <div ref={timerRef}></div>
                 {startDate && <div>Comparisons: {comparisons}</div>}
             </div>
-            <div className="grid xl:grid-cols-4 sm:grid-cols-3 justify-items-center gap-12" ref={cardContainerRef}>
+            <div className="grid xl:grid-cols-6 sm:grid-cols-3 justify-items-center gap-12" ref={cardContainerRef}>
                 {shuffledMemoryList.map(({ name, isEnabled }, idx) =>
                     <Card key={`${name}${idx}`} revealCard={revealCard} name={name} isEnabled={isEnabled} idx={idx}>
                         {name}
                     </Card>
                 )}
             </div>
-            <>
-                {showModal ? (
-                    <>
-                        <div
-                            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-                        >
-                            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                                {/*content*/}
-                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-red-800 outline-none focus:outline-none">
-                                    {/*header*/}
-                                    <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                                        <h3 className="text-3xl font-semibold">
-                                            You won!!!
-                                        </h3>
-                                        <button
-                                            className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                            onClick={() => setShowModal(false)}
-                                        >
-                                            <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                                ×
-                                            </span>
-                                        </button>
-                                    </div>
-                                    {/*body*/}
-                                    <div className="relative p-6 flex-auto">
-                                        <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                                            Comparisons: {comparisons}
-                                        </p>
-                                        <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                                            Time: {timeString.current}
-                                        </p>
-                                    </div>
-                                    {/*footer*/}
-                                    <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                                        <button
-                                            className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                            type="button"
-                                            onClick={() => setShowModal(false)}
-                                        >
-                                            Exit
-                                        </button>
-                                        <button
-                                            className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                            type="button"
-                                            onClick={() => {
-                                                setShowModal(false)
-                                                startMemoryGame()
-                                            }}
-                                        >
-                                            Play again
-                                        </button>
-                                    </div>
+            {showModal && (
+                <>
+                    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                            {/*content*/}
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-red-800 outline-none focus:outline-none w-[400px]">
+                                {/*header*/}
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                    <h3 className="text-3xl font-semibold">
+                                        You won!!!
+                                    </h3>
+                                    <button
+                                        className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            ×
+                                        </span>
+                                    </button>
+                                </div>
+                                {/*body*/}
+                                <div className="relative p-6 flex-auto">
+                                    <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                        Comparisons: {comparisons}
+                                    </p>
+                                    <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                        Time: {timeString.current}
+                                    </p>
+                                </div>
+                                {/*footer*/}
+                                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                    <button
+                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        Exit
+                                    </button>
+                                    <button
+                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={() => {
+                                            setShowModal(false)
+                                            startMemoryGame()
+                                        }}
+                                    >
+                                        Play again
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-                    </>
-                ) : null}
-            </>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black" />
+                </>
+            )}
         </div>
     )
 }
