@@ -220,6 +220,27 @@ function Memory() {
 
     return (
         <div className="flex flex-col items-center h-screen justify-center justify-center">
+            <p className="text-3xl">Choose the difficulty</p>
+            <div className="flex gap-4">
+                <label class="form-control">
+                    <input type="radio" name="difficulty" className="hidden" />
+                    <p>
+                        Easy
+                    </p>
+                </label>
+                <label class="form-control">
+                    <input type="radio" name="difficulty" className="hidden" />
+                    <p>
+                        Normal
+                    </p>
+                </label>
+                <label class="form-control">
+                    <input type="radio" name="difficulty" className="hidden" />
+                    <p>
+                        Hard
+                    </p>
+                </label>
+            </div>
             <p className="text-5xl mb-14 text-center fixed top-0 z-20 lg:mt-3 mt-9">Memory</p>
             <button className='text-6xl hover:text-red-700'
                 onClick={() => {
