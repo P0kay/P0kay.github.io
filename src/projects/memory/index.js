@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import Card from "./Card";
+import { useNavigate } from "react-router-dom";
 
 
 function Memory() {
-    const animalList = ['frog', 'fox', 'cat', 'dog', 'capibara', 'owl', 'lion', 'parrot', 'panda', 'duck', 'turtle', 'sheep', 'penguin', 'kangaroo', 'rabbit', 'hippo', 'hedgehog', 'bear']
+    const navigate = useNavigate()
+    const CARDS_AMOUNT = 6
+    const ANIMAL_LIST = ['frog', 'fox', 'cat', 'dog', 'capibara', 'owl', 'lion', 'parrot', 'panda', 'duck', 'turtle', 'sheep', 'penguin', 'kangaroo', 'rabbit', 'hippo', 'hedgehog', 'bear']
     const timeOfCardAnimation = 250
     const startButtonRef = useRef(null)
     const cardContainerRef = useRef(null)
@@ -18,26 +21,30 @@ function Memory() {
     const [showModal, setShowModal] = useState(false);
 
     const startMemoryGame = () => {
-        if (cardContainerRef.current.children.length > 0) {
-            console.log(cardContainerRef.current.children)
-        }
         startButtonRef.current.remove()
         setStartDate(new Date())
         setComparisons(0)
         setChosenCards([])
         setCardsGuessedCorrectly([])
-        setShuffledMemoryList(shuffleArray(animalList))
+        setShuffledMemoryList(shuffleArray(ANIMAL_LIST))
     }
 
-    const shuffleArray = (arr) => {
-        arr = [...arr, ...arr]
-        let tempArr = []
-        for (let i = arr.length - 1; i >= 0; i--) {
-            let idx = Math.floor(Math.random() * (i + 1))
-            tempArr.push({ name: arr[idx], isEnabled: true })
-            arr.splice(idx, 1)
+    const shuffleArray = (animalList) => {
+        let tempAnimalList = [...animalList]
+        let chosenAnimals = []
+        for (let i = 0; i < CARDS_AMOUNT; i++) {
+            let idx = Math.floor(Math.random() * (tempAnimalList.length))
+            chosenAnimals.push(tempAnimalList[idx])
+            tempAnimalList.splice(idx, 1)
         }
-        return tempArr
+        animalList = [...chosenAnimals, ...chosenAnimals]
+        chosenAnimals = []
+        for (let i = animalList.length - 1; i >= 0; i--) {
+            let idx = Math.floor(Math.random() * (i + 1))
+            chosenAnimals.push({ name: animalList[idx], isEnabled: true })
+            animalList.splice(idx, 1)
+        }
+        return chosenAnimals
     }
 
     const revealCardAnimation = ({ name, cardRef }) => {
@@ -152,8 +159,8 @@ function Memory() {
     }, [chosenCards])
 
     useEffect(() => {
-        if (cardsGuessedCorretly.length === animalList.length) {
-            clearInterval(timerInterval)
+        if (cardsGuessedCorretly.length === CARDS_AMOUNT) {
+            clearInterval(timerInterval.current)
             confettiAnimation()
             new Promise(r => setTimeout(r, 1000)).then(() => {
                 for (let i = 0; i < cardContainerRef.current.children.length; i++) {
@@ -176,9 +183,8 @@ function Memory() {
                         })
                     new Promise(r => setTimeout(r, timeOfCardAnimation / 2)).then(() => {
                         cardContainerRef.current.children[i].innerHTML = 'M'
-                    })
+                    }).then(setShowModal(true))
                 }
-                setShowModal(true)
             })
         }
     }, [cardsGuessedCorretly])
@@ -219,29 +225,8 @@ function Memory() {
     }, [startDate])
 
     return (
-        <div className="flex flex-col items-center h-screen justify-center justify-center">
-            <p className="text-3xl">Choose the difficulty</p>
-            <div className="flex gap-4">
-                <label class="form-control">
-                    <input type="radio" name="difficulty" className="hidden" />
-                    <p>
-                        Easy
-                    </p>
-                </label>
-                <label class="form-control">
-                    <input type="radio" name="difficulty" className="hidden" />
-                    <p>
-                        Normal
-                    </p>
-                </label>
-                <label class="form-control">
-                    <input type="radio" name="difficulty" className="hidden" />
-                    <p>
-                        Hard
-                    </p>
-                </label>
-            </div>
-            <p className="text-5xl mb-14 text-center fixed top-0 z-20 lg:mt-3 mt-9">Memory</p>
+        <div className="flex flex-col items-center justify-center justify-center mt-32">
+            <p className="text-5xl text-center fixed top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Memory</p>
             <button className='text-6xl hover:text-red-700'
                 onClick={() => {
                     startMemoryGame()
@@ -252,7 +237,7 @@ function Memory() {
                 <div ref={timerRef}></div>
                 {startDate && <div>Comparisons: {comparisons}</div>}
             </div>
-            <div className="grid xl:grid-cols-6 sm:grid-cols-3 justify-items-center gap-12" ref={cardContainerRef}>
+            <div className="grid xl:grid-cols-6 sm:grid-cols-3 justify-items-center gap-8" ref={cardContainerRef}>
                 {shuffledMemoryList.map(({ name, isEnabled }, idx) =>
                     <Card key={`${name}${idx}`} revealCard={revealCard} name={name} isEnabled={isEnabled} idx={idx}>
                         {name}
@@ -262,7 +247,7 @@ function Memory() {
             {showModal && (
                 <>
                     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                        <div className="relative w-auto my-6 max-w-3xl w-1/3">
                             {/*content*/}
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-red-800 outline-none focus:outline-none w-[400px]">
                                 {/*header*/}
@@ -293,7 +278,11 @@ function Memory() {
                                     <button
                                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={() => {
+                                            setShowModal(false)
+                                            navigate(-1, { replace: true })
+                                        }
+                                        }
                                     >
                                         Exit
                                     </button>

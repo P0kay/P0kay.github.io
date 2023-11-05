@@ -5,7 +5,11 @@ module.exports = {
     "./node_modules/tw-elements/dist/js/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        "custom": '4px 4px 0 0 rgb(0 0 0 / 0.3)'
+      },
+    }
   },
   plugins: [require("tw-elements/dist/plugin.cjs")],
 }
