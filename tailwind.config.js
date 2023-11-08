@@ -7,8 +7,8 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        "custom": '4px 4px 0 0 rgb(0 0 0 / 0.3)'
-      },
+        "custom": '4px 4px 0 0 #820e0e'
+      }
     }
   },
   plugins: [require("tw-elements/dist/plugin.cjs")],

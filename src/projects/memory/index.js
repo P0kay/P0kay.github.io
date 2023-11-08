@@ -225,8 +225,8 @@ function Memory() {
     }, [startDate])
 
     return (
-        <div className="flex flex-col items-center justify-center justify-center lg:mt-32">
-            <p className="text-5xl text-center lg:fixed top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Memory</p>
+        <div className={`flex flex-col items-center h-full ${startDate && 'pt-40'} ${!startDate && 'justify-center'}`}>
+            <p className="text-5xl text-center fixed top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Memory</p>
             <button className='text-6xl hover:text-red-700'
                 onClick={() => {
                     startMemoryGame()
@@ -237,7 +237,7 @@ function Memory() {
                 <div ref={timerRef}></div>
                 {startDate && <div>Comparisons: {comparisons}</div>}
             </div>
-            <div className="grid xl:grid-cols-6 sm:grid-cols-3 justify-items-center gap-8" ref={cardContainerRef}>
+            <div className="grid xl:grid-cols-6 lg:grid-cols-4 sm:grid-cols-3 justify-items-center gap-8" ref={cardContainerRef}>
                 {shuffledMemoryList.map(({ name, isEnabled }, idx) =>
                     <Card key={`${name}${idx}`} revealCard={revealCard} name={name} isEnabled={isEnabled} idx={idx}>
                         {name}
@@ -249,7 +249,7 @@ function Memory() {
                     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                         <div className="relative w-auto my-6 max-w-3xl w-1/3">
                             {/*content*/}
-                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-red-800 outline-none focus:outline-none w-[400px]">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-red-800 outline-none focus:outline-none w-[500px]">
                                 {/*header*/}
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                                     <h3 className="text-3xl font-semibold">
