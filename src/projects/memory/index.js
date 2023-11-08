@@ -225,8 +225,8 @@ function Memory() {
     }, [startDate])
 
     return (
-        <div className="flex flex-col items-center justify-center justify-center mt-32">
-            <p className="text-5xl text-center fixed top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Memory</p>
+        <div className="flex flex-col items-center justify-center justify-center lg:mt-32">
+            <p className="text-5xl text-center lg:fixed top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Memory</p>
             <button className='text-6xl hover:text-red-700'
                 onClick={() => {
                     startMemoryGame()

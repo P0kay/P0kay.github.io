@@ -28,12 +28,12 @@ function App() {
         </ul>
       </nav>
       {sideBarShown &&
-        <ShrinkBar size="60" color="#d4d4d4" className='lg:hidden h-20 m-6 cursor-pointer relative z-30' onClick={showNavTab} />
+        <ShrinkBar size="60" color="#d4d4d4" className='lg:hidden h-20 m-6 cursor-pointer relative z-40 flex items-center' onClick={showNavTab} />
       }
       {!sideBarShown &&
-        <ExpandBar size="60" color="#d4d4d4" className='lg:hidden h-20 m-6 cursor-pointer relative z-30 flex items-center' onClick={showNavTab} />
+        <ExpandBar size="60" color="#d4d4d4" className='lg:hidden h-20 m-6 cursor-pointer relative z-40 flex items-center' onClick={showNavTab} />
       }
-      <nav className='text-neutral-100 bg-red-900 text-[200%] lg:hidden absolute -left-full top-0 h-full w-2/4 z-20' ref={navRef}>
+      <nav className='text-neutral-100 bg-red-900 text-[200%] lg:hidden absolute -left-full top-0 h-full w-2/4 z-30' ref={navRef}>
         <ul className='pt-12'>
           <li className="cursor-pointer hover:text-neutral-400 text-center m-10 mt-32">
             <NavLink to='about_me' onClick={showNavTab} >
