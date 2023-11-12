@@ -9,7 +9,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import AboutMe from './about-me';
+import AboutMe from './about_me';
 import Memory from './projects/memory';
 
 const router = createBrowserRouter([

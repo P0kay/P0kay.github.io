@@ -1,23 +1,13 @@
 #root{
-  font-family: 'Noto Sans NKo Unjoined', sans-serif;
+  font-family: 'Inconsolata', monospace;
   color: rgb(255, 244, 244);
   height: 100%;
 
   .memory-card{
     font-family: 'Playball', cursive;
   }
-  .App{
-    position: relative;
+
+  .technology{
+    font-family: CascadiaCode;
   }
-.App::before{
-    content: "";
-    background-image: url('');
-    background-size: cover;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 0.4;
-}
 }
