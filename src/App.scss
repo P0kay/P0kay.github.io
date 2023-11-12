@@ -1,13 +1,21 @@
-#root{
-  font-family: 'Inconsolata', monospace;
-  color: rgb(255, 244, 244);
-  height: 100%;
 
-  .memory-card{
-    font-family: 'Playball', cursive;
-  }
+body{
+  background-attachment: fixed;
+  background-image: radial-gradient(#6b6b6b, rgb(6 6 6));
 
-  .technology{
-    font-family: CascadiaCode;
+  #root{
+    font-family: 'Inconsolata', monospace;
+    color: rgb(255, 244, 244);
+
+    @media screen and (max-width:1024px){
+      main{
+        min-height: calc(100vh);
+      }
   }
+  @media screen and (min-width:1024px){
+      main{
+        min-height: calc(100vh - 5rem);
+      }
+  }
+    }
 }

@@ -101,10 +101,10 @@ function AboutMe() {
           <img src={Jakub} alt="Jakub Szymański.png" className='max-lg:w-[26rem] max-lg:h-[26rem] h-52 w-52 object-cover rounded-full text-center' />
         </div>
         <div className='flex flex-col items-center order-2'>
-          <p className="bg-gradient-to-r from-red-900 to-red-700 lg:text-4xl text-5xl h-max w-max p-2 shadow-custom shadow-red-900 rounded-md mb-8 font-black neon">FRONT-END DEVELOPER</p>
-          <h1 className="text-5xl text-center">
+          <h1 className="bg-gradient-to-r from-red-900 to-red-700 lg:text-4xl text-5xl h-max w-max p-2 shadow-custom shadow-red-900 rounded-md mb-8 font-black neon">FRONT-END DEVELOPER</h1>
+          <h2 className="text-5xl text-center">
             Hi, I'm Jakub
-          </h1>
+          </h2>
           <p className='mt-4 mx-8 text-3xl'>I'm a web developer and I've been coding for {timeOfProgramming} now.</p>
         </div>
       </section>

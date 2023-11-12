@@ -1,16 +1,27 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import './App.scss';
 import Sidenav from './components/Sidenav';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import { useEffect } from 'react';
 
 function App() {
+  const pathname = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname])
   return (
-    <div className='App h-full'>
-      <Navbar />
-      <Sidenav />
-      <div className='lg:mt-20 h-full relative'>
+    <div className='App'>
+      <header>
+        <Navbar />
+        <Sidenav />
+      </header>
+      <main className='lg:mt-20 mb-8'>
         <Outlet />
-      </div>
+      </main>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }
