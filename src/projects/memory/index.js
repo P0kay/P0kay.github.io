@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function Memory() {
     const navigate = useNavigate()
-    const CARDS_AMOUNT = 1
+    const CARDS_AMOUNT = 6
     const ANIMAL_LIST = ['frog', 'fox', 'cat', 'dog', 'capibara', 'owl', 'lion', 'parrot', 'panda', 'duck', 'turtle', 'sheep', 'penguin', 'kangaroo', 'rabbit', 'hippo', 'hedgehog', 'bear']
     const timeOfCardAnimation = 250
     const startButtonRef = useRef(null)

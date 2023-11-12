@@ -31,7 +31,7 @@ function AboutMe() {
     {
       name: 'React',
       path: 'react',
-      description: <p className='text-left'> {`<`}<span className='text-yellow-400'>Description</span> <span className='text-amber-500'>&nbsp;content</span><span className='text-cyan-500'>=</span><span className='text-lime-500'>'JavaScript &nbsp;library which allows &nbsp;creating custom components, &nbsp;dynamically display content &nbsp;and much more.</span> {`/>`}</p>,
+      description: <p className='text-left'> {`<`}<span className='text-yellow-400'>Description</span> <span className='text-amber-500'>content</span><span className='text-cyan-500'>=</span><span className='text-lime-500'>'JavaScript library which allows creating custom components, dynamically display content and much more.</span> {`/>`}</p>,
       level: 4
     },
     {
