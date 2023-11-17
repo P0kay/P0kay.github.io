@@ -7,11 +7,11 @@ function TechnologiesCard({ technology }) {
             <img src={`icons/${technology.path}.svg`} alt="" className="h-20 w-20" />
             <p className="text-2xl max-lg:text-4xl font-black">{technology.name}</p>
             <div className="flex justify-center">
-                {[...Array(technology.level)].map(star =>
-                    <Star size={20} color='white' fill='white' />
+                {[...Array(technology.level)].map((star, index) =>
+                    <Star size={20} color='white' fill='white' a={`${technology.name}${index}`} key={`${technology.name}${index}`} />
                 )}
-                {[...Array(MAX_LEVEL - technology.level)].map(star =>
-                    <Star size={20} color='white' fill='none' />
+                {[...Array(MAX_LEVEL - technology.level)].map((star, index) =>
+                    <Star size={20} color='white' fill='none' key={`${technology.name}${index+technology.level}`} />
                 )}
             </div>
             <div className='text-neutral-300 max-lg:text-xl'>

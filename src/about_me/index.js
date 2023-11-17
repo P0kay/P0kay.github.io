@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Jakub from './jakub.png'
 import TechnologiesCard from './technologies_card';
 function AboutMe() {

@@ -1,6 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
+import sidenavReducer from './slices/sidenavSlice'
 
-export default configureStore({
+const store = configureStore({
   reducer: {
-  }
+    sidenav: sidenavReducer
+  },
 })
+export default store
