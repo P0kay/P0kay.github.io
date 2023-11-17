@@ -30,11 +30,9 @@ function Sidenav() {
                         <NavLink to={route.path} onClick={e => {
                             pathname === route.path && e.preventDefault()
                         }} key={route.name}>
-                            <li className="cursor-pointer group text-left m-8 p-8 border-b-2 border-red-950 flex items-center gap-4 pl-0">
+                            <li className={`cursor-pointer text-left p-8 flex items-center gap-4 hover:bg-red-800 ${pathname === route.path && 'bg-red-800'}`}>
                                 {route.icon}
-                                <p className={`${pathname === route.path && 'border-bottom'}  group-hover:border-bottom`}>
                                     {route.name}
-                                </p>
                             </li>
                         </NavLink>
                     )}

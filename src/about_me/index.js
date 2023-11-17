@@ -13,13 +13,13 @@ function AboutMe() {
     {
       name: 'CSS',
       path: 'css',
-      description: <p className='text-left'> <span className='text-amber-500'>p.description{`\{`}</span><br /><span>&nbsp;content:</span> <span className='text-lime-500'>'Style sheet &nbsp;language used for styling &nbsp;website written in HTML.'</span>;<span className='text-amber-500'><br />{`\}`}</span></p>,
+      description: <p className='text-left'> <span className='text-amber-500'>p.description{`\{`}</span><br /><span>content:</span> <span className='text-lime-500'>'Style sheet language used for styling website written in HTML.'</span>;<span className='text-amber-500'><br />{`\}`}</span></p>,
       level: 4
     },
     {
       name: 'JavScript',
       path: 'javascript',
-      description: <p className='text-left'><span className='text-fuchsia-400'>function</span> <span className='text-blue-400'>Description</span><span className='text-fuchsia-400'>(){`\{`}</span> <span className='text-yellow-400'>&nbsp;console</span>.<span className='text-blue-400'>log</span><span className='text-cyan-500'>(</span><span className='text-lime-500'>'High-level &nbsp;programming language used &nbsp;on client-side.'</span><span className='text-cyan-500'>)</span>; <span className='text-fuchsia-400'><br />{`\}`}</span></p>,
+      description: <p className='text-left'><span className='text-fuchsia-400'>function</span> <span className='text-blue-400'>Description</span><span className='text-fuchsia-400'>(){`\{`}</span> <span className='text-yellow-400'>console</span>.<span className='text-blue-400'>log</span><span className='text-cyan-500'>(</span><span className='text-lime-500'>'High-level programming language used on client-side.'</span><span className='text-cyan-500'>)</span>; <span className='text-fuchsia-400'><br />{`\}`}</span></p>,
       level: 4
     },
     {
@@ -70,7 +70,7 @@ function AboutMe() {
       path: 'php',
       description: <p className='text-left'>
         <span className='text-red-500'>{`<?`}php</span> <br />
-        <span className='text-red-400'>$description</span> <span className='text-cyan-500'>=</span> <span className='text-lime-500'>'Server-side &nbsp;programming language that &nbsp;can be used to create &nbsp;websites'</span>
+        <span className='text-red-400'>$description</span> <span className='text-cyan-500'>=</span> <span className='text-lime-500'>'Server-side programming language that can be used to create websites'</span>
         <br /><span className='text-red-500'>{`?>`}</span></p>,
       level: 2
     },
@@ -108,10 +108,10 @@ function AboutMe() {
           <p className='mt-4 mx-8 text-3xl'>I'm a web developer and I've been coding for {timeOfProgramming} now.</p>
         </div>
       </section>
-      <h1 className='self-center mb-10 text-3xl'>
+      <h1 className='self-center mb-20 text-3xl max-lg:text-4xl'>
         My knowledge of technologies
       </h1>
-      <section className='grid max-xl:grid-cols-2 grid-cols-3 justify-items-center gap-12 md:px-16 xl:px-24'>
+      <section className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 justify-items-center gap-12 md:px-16 2xl:px-24'>
         {technologies.map((technology) =>
           <TechnologiesCard
             technology={technology} key={technology.name} />

@@ -6,13 +6,13 @@ import Projects from './projects';
 import store from './redux/store'
 import { Provider } from 'react-redux'
 import {
-  createBrowserRouter,
+  createHashRouter,
   RouterProvider,
 } from "react-router-dom";
 import AboutMe from './about_me';
 import Memory from './projects/memory';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,

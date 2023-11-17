@@ -1,6 +1,6 @@
 
 body{
-  background-attachment: fixed;
+  // background-attachment: fixed;
   background-image: radial-gradient(#6b6b6b, rgb(6 6 6));
 
   #root{
@@ -9,13 +9,32 @@ body{
 
     @media screen and (max-width:1024px){
       main{
-        min-height: calc(100vh);
+        min-height: calc(100svh);
       }
   }
   @media screen and (min-width:1024px){
       main{
-        min-height: calc(100vh - 5rem);
+        min-height: calc(100svh - 5rem);
       }
   }
     }
+}
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a32d2d;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #be1e1e;
 }

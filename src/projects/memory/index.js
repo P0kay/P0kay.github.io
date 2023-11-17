@@ -227,11 +227,11 @@ function Memory() {
     return (
         <div className={`flex flex-col items-center h-full ${startDate && 'pt-40'} ${!startDate && 'justify-center'}`}>
             <p className="text-5xl text-center fixed top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Memory</p>
-            <button className='text-6xl hover:text-red-700 max-lg:mt-[75%] mt-80'
+            <button className='text-6xl max-lg:mt-[75%] mt-80 btn'
                 onClick={() => {
                     startMemoryGame()
                 }} ref={startButtonRef}>
-                Start
+                START
             </button>
             <div className="flex gap-4 mb-6 text-2xl">
                 <div ref={timerRef}></div>
