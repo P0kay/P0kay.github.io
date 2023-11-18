@@ -97,7 +97,7 @@ function AboutMe() {
   return (
     <div className='flex flex-col'>
       <section className='flex self-center items-center justify-center flex-wrap max-lg:flex-col gap-8 p-12 mt-20 mb-40'>
-        <div className='bg-gradient-to-r from-rose-700 to-fuchsia-900 max-lg:w-[28rem] max-lg:h-[28rem] h-56 w-56 flex justify-center items-center rounded-full justify-self-center order-1'>
+        <div className='bg-gradient-to-r from-rose-700 to-fuchsia-900 max-lg:w-[28rem] max-lg:h-[28rem] h-56 w-56 flex justify-center items-center rounded-full justify-self-center select-none'>
           <img src={Jakub} alt="Jakub Szymański.png" className='max-lg:w-[26rem] max-lg:h-[26rem] h-52 w-52 object-cover rounded-full text-center' />
         </div>
         <div className='flex flex-col items-center order-2'>

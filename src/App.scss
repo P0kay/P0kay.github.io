@@ -1,7 +1,5 @@
 
 body{
-  background-attachment: fixed;
-  background-image: radial-gradient(#6b6b6b, rgb(6 6 6));
 
   #root{
     font-family: 'Inconsolata', monospace;
@@ -9,13 +7,17 @@ body{
 
     @media screen and (max-width:1024px){
       main{
-        min-height: calc(100svh);
+        min-height: calc(100vh);
       }
   }
-  @media screen and (min-width:1024px){
+    @media screen and (min-width:1024px){
       main{
-        min-height: calc(100svh - 5rem);
+        min-height: calc(100vh - 5rem);
       }
+  }
+  main{
+  background-attachment: fixed;
+  background-image: radial-gradient(#6b6b6b, rgb(6 6 6));
   }
     }
 }
