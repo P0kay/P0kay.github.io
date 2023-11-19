@@ -23,7 +23,7 @@ function App() {
         <Navbar />
         <Sidenav />
       </header>
-      <main className='lg:mt-20 pb-8' onClick={() => {
+      <main className='lg:mt-20' onClick={() => {
         if (expanded) {
           dispatch(switchExpand())
         }
