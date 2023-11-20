@@ -105,13 +105,13 @@ function AboutMe() {
           <h2 className="text-5xl text-center">
             Hi, I'm Jakub
           </h2>
-          <p className='mt-4 mx-8 text-3xl'>I'm a web developer and I've been coding for {timeOfProgramming} now.</p>
+          <p className='mt-4 mx-8 text-4xl'>I'm a web developer and I've been coding for {timeOfProgramming} now.</p>
         </div>
       </section>
-      <h1 className='self-center mb-20 text-3xl max-lg:text-4xl'>
+      <h1 className='self-center mb-20 text-3xl max-lg:text-5xl'>
         My knowledge of technologies
       </h1>
-      <section className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 justify-items-center gap-12 md:px-16 2xl:px-24'>
+      <section className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 justify-items-center gap-32 md:px-16 2xl:px-24'>
         {technologies.map((technology) =>
           <TechnologiesCard
             technology={technology} key={technology.name} />

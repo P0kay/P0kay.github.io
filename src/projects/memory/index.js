@@ -225,7 +225,7 @@ function Memory() {
     }, [startDate])
 
     return (
-        <div className={`flex flex-col items-center h-full ${startDate && 'pt-40'} ${!startDate && 'justify-center'}`}>
+        <div className={`flex flex-col items-center h-full pb-28 xl:pb-0 ${startDate && 'pt-40'} ${!startDate && 'justify-center'}`}>
             <p className="text-5xl text-center lg:fixed absolute top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Memory</p>
             <button className='text-6xl max-lg:mt-[75%] mt-80 btn'
                 onClick={() => {

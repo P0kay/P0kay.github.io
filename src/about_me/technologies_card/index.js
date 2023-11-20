@@ -3,8 +3,8 @@ import Star from "../../Icons/Star";
 function TechnologiesCard({ technology }) {
     const MAX_LEVEL = 6
     return (
-        <div className="h-[380px] w-[360px] flex justify-evenly flex flex-col items-center text-center p-8 relative font-[CascadiaCode] text-lg gap-4 bg-gradient-to-r  from-neutral-300/25 to-neutral-100/25 rounded-xl max-lg:h-[600px] max-lg:w-4/5">
-            <img src={`icons/${technology.path}.svg`} alt="" className="h-20 w-20" />
+        <div className="h-[380px] w-[360px] flex justify-evenly flex flex-col items-center text-center p-8 relative font-[CascadiaCode] text-lg gap-4 bg-gradient-to-r  from-neutral-300/25 to-neutral-100/25 rounded-xl max-lg:h-[600px] max-lg:w-[550px]">
+            <img src={`icons/${technology.path}.svg`} alt="" className="h-24 w-24" />
             <p className="text-2xl max-lg:text-5xl font-black">{technology.name}</p>
             <div className="flex justify-center">
                 {[...Array(technology.level)].map((star, index) =>
