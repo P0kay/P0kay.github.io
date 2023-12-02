@@ -1,5 +1,5 @@
-import User from './Icons/User'
-import Folder from './Icons/Folder';
+import User from './IconComponents/User'
+import Folder from './IconComponents/Folder';
 import AboutMe from './about_me';
 import Projects from './projects';
 

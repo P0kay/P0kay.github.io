@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import routes from '../routes'
-import ShrinkBar from '../Icons/ShrinkBar';
-import ExpandBar from '../Icons/ExpandBar';
+import ShrinkBar from '../IconComponents/ShrinkBar';
+import ExpandBar from '../IconComponents/ExpandBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { sidenavValue, switchExpand } from '../redux/slices/sidenavSlice';
 

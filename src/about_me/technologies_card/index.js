@@ -1,4 +1,4 @@
-import Star from "../../Icons/Star";
+import Star from "../../IconComponents/Star";
 
 function TechnologiesCard({ technology }) {
     const MAX_LEVEL = 6
