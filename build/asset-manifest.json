@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6c9efe0c.css",
+    "main.js": "/static/js/main.b894b4a9.js",
+    "static/media/memory.png": "/static/media/memory.ad1a59b9aab952b25cb0.png",
+    "static/media/table.png": "/static/media/table.d60493921bc0a109e297.png",
+    "static/media/CascadiaCode.woff2": "/static/media/CascadiaCode.61442455812b2cee49c4.woff2",
+    "static/media/card_back.png": "/static/media/card_back.b75d6f65f25c6cf7c1d9.png",
+    "static/media/neon.ttf": "/static/media/neon.afa4af4417b9e3c961d5.ttf",
+    "static/media/tailwind.png": "/static/media/tailwind.833f9b832e5579c28d80.png",
+    "static/media/jakub.png": "/static/media/jakub.0b48d6f408c8e245f680.png",
+    "static/media/hearts.png": "/static/media/hearts.76687a5348fd9d30cb8a.png",
+    "static/media/next.png": "/static/media/next.6db19b31cc0a2f63cff4.png",
+    "static/media/spades.png": "/static/media/spades.ba310f4b5edd355b2df8.png",
+    "static/media/diamonds.png": "/static/media/diamonds.9cd77c09ed88836d21fc.png",
+    "static/media/clubs.png": "/static/media/clubs.41d63a9e80cb6e9ed94f.png",
+    "index.html": "/index.html",
+    "main.6c9efe0c.css.map": "/static/css/main.6c9efe0c.css.map",
+    "main.b894b4a9.js.map": "/static/js/main.b894b4a9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6c9efe0c.css",
+    "static/js/main.b894b4a9.js"
+  ]
+}
