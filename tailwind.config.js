@@ -8,6 +8,10 @@ module.exports = {
     extend: {
       boxShadow: {
         "custom": '4px 4px 0 0 #820e0e'
+      },
+      backgroundImage:{
+        'poker-table':"url('images/table.png')",
+        'card-back':"url('images/card_back.png')"
       }
       // background: linear-gradient(
       //         rgb(255, 255, 255),

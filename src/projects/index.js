@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import Memory from '../images/memory.png'
 
 function Projects() {
-    const project_list = ['memory']
+    const project_list = ['memory','poker']
     return (
         <section className="flex justify-evenly flex-wrap gap-40 pt-16">
             {project_list.map(project =>

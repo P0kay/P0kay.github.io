@@ -95,7 +95,7 @@ function AboutMe() {
     setTimeOfProgramming(`${years} years and ${months} ${months > 1 ? 'months' : 'month'}`)
   }, [])
   return (
-    <div className='flex flex-col pt-8 pb-16 max-lg:pb-32'>
+    <div className='flex flex-col pt-8 pb-16 max-lg:pb-32 h-full'>
       <section className='flex self-center items-center justify-center flex-wrap max-lg:flex-col gap-8 p-12 mb-40'>
         <div className='bg-gradient-to-r from-rose-700 to-fuchsia-900 max-lg:w-[28rem] max-lg:h-[28rem] h-56 w-56 flex justify-center items-center rounded-full justify-self-center select-none'>
           <img src={Jakub} alt="Jakub Szymański.png" className='max-lg:w-[26rem] max-lg:h-[26rem] h-52 w-52 object-cover rounded-full text-center' />

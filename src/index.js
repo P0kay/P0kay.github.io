@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import AboutMe from './about_me';
 import Memory from './projects/memory';
+import Poker from './projects/poker';
 
 const router = createHashRouter([
   {
@@ -33,6 +34,10 @@ const router = createHashRouter([
       {
         path: 'projects/memory',
         element: <Memory />
+      },
+      {
+        path: 'projects/poker',
+        element: <Poker />
       }
     ]
   }

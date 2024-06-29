@@ -1,24 +1,25 @@
-
-body{
-
-  #root{
-    font-family: 'Inconsolata', monospace;
+body {
+  #root {
+    font-family: "Inconsolata", monospace;
     color: rgb(255, 244, 244);
 
-    @media screen and (max-width:1024px){
-      main{
+    @media screen and (max-width: 1024px) {
+      main {
         min-height: calc(100vh);
       }
-  }
-    @media screen and (min-width:1024px){
-      main{
+    }
+    @media screen and (min-width: 1024px) {
+      main {
         min-height: calc(100vh - 5rem);
       }
-  }
-  main{
-    background-image: radial-gradient(#6e6e6e, rgb(12, 12, 12));
-  }
     }
+    main {
+      background-image: radial-gradient(#6e6e6e, rgb(12, 12, 12));
+      > div {
+        min-height: calc(100vh - 5rem);
+      }
+    }
+  }
 }
 ::-webkit-scrollbar {
   width: 0.5rem;
