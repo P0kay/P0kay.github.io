@@ -73,14 +73,16 @@ function Poker() {
                 </div>
 
                 {players.length !== 0 &&
-                    <div className="fixed bottom-0 left-0 w-full">
-                        <Card suit={players[0].hand[0].suit} symbol={players[0].hand[0].symbol} className='fixed left-[35em] bottom-10 -rotate-12' />
-                        <Card suit={players[0].hand[1].suit} symbol={players[0].hand[1].symbol} className='fixed left-[36.2em] bottom-8 rotate-6' />
+                    <div className="absolute left-[46%] bottom-60">
+                        <Card suit={players[0].hand[0].suit} symbol={players[0].hand[0].symbol} className='absolute -rotate-12' />
+                        <Card suit={players[0].hand[1].suit} symbol={players[0].hand[1].symbol} className='absolute left-6 top-2 rotate-6' />
                     </div>
                 }
                 <div className="static [&>div]:absolute">
                     <div className="player2 bottom-[25%] left-[15%]">
                         player 2
+                            {/* <HiddenCard className='absolute -rotate-12 scale-75' />
+                            <HiddenCard className='absolute left-14 top-6 rotate-6 scale-75' /> */}
                     </div>
                     {players.length > 2 &&
                         <div className="player3 top-[25%] left-[15%]">
