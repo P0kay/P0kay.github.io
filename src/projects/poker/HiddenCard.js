@@ -1,6 +1,6 @@
 function HiddenCard({ className }) {
     return (
-        <div className={`w-[140px] h-[210px] rounded-xl scale-75 bg-card-back bg-contain bg-no-repeat ${className}`}>
+        <div className={`w-[140px] h-[210px] rounded-xl bg-card-back bg-contain bg-no-repeat ${className}`}>
         </div>
     );
 }

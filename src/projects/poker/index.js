@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import Card from "./Card"
-import { Player } from "./Player"
+import { Player } from "./PlayerClass"
 import HiddenCard from "./HiddenCard"
 
 function Poker() {
@@ -12,11 +12,13 @@ function Poker() {
     const createDeck = () => {
         let suits = ['hearts', 'diamonds', 'clubs', 'spades']
         let symbols = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
+        let tempDeckOfCards = []
         symbols.forEach(symbol => {
             suits.forEach(suit => {
-                setDeckOfCards(prev => [...prev, { suit, symbol }])
+                tempDeckOfCards.push({ suit, symbol })
             })
         })
+        setDeckOfCards(tempDeckOfCards)
     }
     const shuffleDeck = () => {
         let tempDeckOfCards = [...deckOfCards]
@@ -47,14 +49,14 @@ function Poker() {
         }
     }, [shuffledDeckOfCards])
     useEffect(() => {
-        console.log(players[0])
+        console.log(players)
     })
     return (
         <div className={`flex flex-col items-center h-full pb-28 xl:pb-0`}>
             <p className="text-5xl text-center lg:fixed absolute top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Texas Hold'em Poker</p>
 
             <div className="flex flex-wrap relative w-full min-h-[inherit] bg-no-repeat bg-poker-table overflow-hidden bg-center">
-                <div className="absolute left-[45%] top-16">
+                <div className="absolute left-[45%] top-[30%] z-10">
                     <button onClick={startGame}>
                         Start the game
                     </button>
@@ -76,32 +78,45 @@ function Poker() {
                     <div className="absolute left-[46%] bottom-60">
                         <Card suit={players[0].hand[0].suit} symbol={players[0].hand[0].symbol} className='absolute -rotate-12' />
                         <Card suit={players[0].hand[1].suit} symbol={players[0].hand[1].symbol} className='absolute left-6 top-2 rotate-6' />
+                        <div className="absolute font-[Bitter] w-20 h-8 -right-96 bottom-0 bg-white text-black rounded-2xl border-2 border-black flex justify-center items-center font-bold text-xl">
+                            ${players[0].stack}
+                        </div>
                     </div>
                 }
                 <div className="static [&>div]:absolute">
-                    <div className="player2 bottom-[25%] left-[15%]">
-                        player 2
-                            {/* <HiddenCard className='absolute -rotate-12 scale-75' />
-                            <HiddenCard className='absolute left-14 top-6 rotate-6 scale-75' /> */}
-                    </div>
+                    {players.length > 0 &&
+                        <div className="player2 bottom-[15%] left-[10%]">
+                            {players[1].username}
+                            <HiddenCard className='absolute -top-36 left-24 rotate-[45deg] scale-50' />
+                            <HiddenCard className='absolute -top-32 left-24 rotate-[60deg] scale-50' />
+                        </div>
+                    }
                     {players.length > 2 &&
-                        <div className="player3 top-[25%] left-[15%]">
-                            player 3
+                        <div className="player3 top-[15%] left-[10%]">
+                            {players[2].username}
+                            <HiddenCard className='absolute -top-16 left-28 rotate-[125deg] scale-50' />
+                            <HiddenCard className='absolute -top-16 left-24 rotate-[140deg] scale-50' />
                         </div>}
                     {players.length > 3 &&
-                        <div className="player4 top-[10%] left-[50%]">
-                            player 4
+                        <div className="player4 top-[2%] left-[50%]">
+                            {players[3].username}
+                            <HiddenCard className='absolute top-2 -left-9 -rotate-[195deg] scale-50' />
+                            <HiddenCard className='absolute top-0 -left-12 -rotate-[180deg] scale-50' />
                         </div>}
                     {players.length > 4 &&
-                        <div className="player5 top-[25%] right-[15%]">
-                            player 5
+                        <div className="player5 top-[15%] right-[10%]">
+                            {players[4].username}
+                            <HiddenCard className='absolute -top-12 -left-44 -rotate-[125deg] scale-50' />
+                            <HiddenCard className='absolute -top-12 -left-40 -rotate-[140deg] scale-50' />
                         </div>}
                     {players.length > 5 &&
-                        <div className="player6 bottom-[25%] right-[15%]">
-                            player 6
+                        <div className="player6 bottom-[15%] right-[10%]">
+                            {players[5].username}
+                            <HiddenCard className='absolute -top-40 -left-40 -rotate-[55deg] scale-50' />
+                            <HiddenCard className='absolute -top-36 -left-40 -rotate-[70deg] scale-50' />
                         </div>}
                 </div>
-                <div className="flex justify-center items-center left-[39em] top-[24em] w-full  justify-center items-center">
+                <div className="flex justify-center scale-[70%] items-center left-[39em] top-[24em] w-full  justify-center items-center gap-4">
                     <HiddenCard className='' />
                     <HiddenCard className='' />
                     <HiddenCard className='' />

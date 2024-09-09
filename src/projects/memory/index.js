@@ -71,25 +71,30 @@ function Memory() {
     const hideCardsAnimation = async (cardRefs) => {
         await new Promise(r => setTimeout(r, 1000));
         cardRefs.forEach(async (cardRef) => {
-            cardRef.current.animate([
-                { backgroundImage: 'none' }
-            ],
-                {
-                    duration: timeOfCardAnimation,
-                    iterations: 1,
-                    fill: 'forwards'
-                }
-            )
-            cardRef.current.animate([
-                { transform: 'rotate3d(0,20,0,0deg)' },
-            ],
-                {
-                    duration: timeOfCardAnimation,
-                    iterations: 1,
-                    fill: 'forwards'
-                })
-            await new Promise(r => setTimeout(r, timeOfCardAnimation / 2));
-            cardRef.current.innerHTML = 'M'
+            try {
+                cardRef.current.animate([
+                    { backgroundImage: 'none' }
+                ],
+                    {
+                        duration: timeOfCardAnimation,
+                        iterations: 1,
+                        fill: 'forwards'
+                    }
+                )
+                cardRef.current.animate([
+                    { transform: 'rotate3d(0,20,0,0deg)' },
+                ],
+                    {
+                        duration: timeOfCardAnimation,
+                        iterations: 1,
+                        fill: 'forwards'
+                    })
+
+                await new Promise(r => setTimeout(r, timeOfCardAnimation / 2));
+                cardRef.current.innerHTML = 'M'
+            } catch {
+                console.log('Action unavailable')
+            }
         })
     }
 
@@ -227,7 +232,7 @@ function Memory() {
     return (
         <div className={`flex flex-col items-center h-full pb-28 xl:pb-0 ${startDate && 'pt-40'} ${!startDate && 'justify-center'}`}>
             <p className="text-5xl text-center lg:fixed absolute top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Memory</p>
-            <button className='text-6xl max-lg:mt-[75%] mt-80 btn'
+            <button className='text-6xl btn'
                 onClick={() => {
                     startMemoryGame()
                 }} ref={startButtonRef}>
