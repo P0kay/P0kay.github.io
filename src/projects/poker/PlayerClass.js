@@ -1,6 +1,6 @@
 export class Player {
     username = ""
-    stack = 1000
+    stack = 0
     hand = []
     bet = 0
     constructor(username) {
@@ -10,13 +10,23 @@ export class Player {
         this.hand.push(card)
     }
     call(currentBet) {
-        this.bet = currentBet
+        if (this.stack >= currentBet) {
+            this.bet = currentBet
+            this.stack -= currentBet
+        }
+        else {
+            this.bet = this.stack
+            this.stack = 0
+        }
+        return this.bet
     }
     fold(currentBet) {
 
     }
-    raise(currentBet) {
-
+    raise(raiseValue) {
+        this.bet = raiseValue
+        this.stack -= raiseValue
+        return this.bet
     }
     check(currentBet) {
         return currentBet === 0
