@@ -3,12 +3,14 @@ import { Player } from "./PlayerClass"
 import HiddenCard from "./components/HiddenCardComponent"
 import newDeck from "./CreateDeck"
 import PlayerSetup from "./components/PlayerSetup"
+import Card from "./components/CardComponent"
 
 function Poker() {
     const SMALL_BLIND = 10
     const BIG_BLIND = 20
     const STARTING_STACK = 1000
     const [shuffledDeckOfCards, setShuffledDeckOfCards] = useState([])
+    const [smallBlind, setSmallBlind] = useState(0)
     const [players, setPlayers] = useState([])
     const [gameData, setGameData] = useState({
         turn: 0,
@@ -17,7 +19,8 @@ function Poker() {
         lastBetter: 0,
         smallBlind: 0,
         bigBlind: 0,
-        pot: 0
+        pot: 0,
+        inGameCards: []
     })
     const [raiseValue, setRaiseValue] = useState(0)
     const [raiseMenuOpen, setRaiseMenuOpen] = useState(false)
@@ -54,7 +57,7 @@ function Poker() {
                 'absolute -top-36 -left-40 -rotate-[70deg] scale-50'
             ]]
     ]
-    const isGameStartedRef = useRef(null)
+    const isGameStartedRef = useRef(false)
     const shuffleDeck = () => {
         let tempDeckOfCards = [...newDeck]
         for (let i = tempDeckOfCards.length - 1; i > 0; i--) {
@@ -66,21 +69,40 @@ function Poker() {
         setShuffledDeckOfCards(tempDeckOfCards)
     }
     const startGame = () => {
+        setGameData({
+            turn: 0,
+            currentBet: 0,
+            playerTurn: 0,
+            lastBetter: 0,
+            smallBlind: 0,
+            bigBlind: 0,
+            pot: 0,
+            inGameCards: []
+        })
+        isGameStartedRef.current = false
         shuffleDeck()
     }
     const Call = () => {
         let bet = players[gameData.playerTurn].call(gameData.currentBet)
         setPlayers(players => [...players])
-        setGameData(prevData => ({ ...prevData, pot: prevData.pot + bet }))
+        setGameData(prevData => ({ ...prevData, pot: prevData.pot + bet, playerTurn: prevData.playerTurn + 1 === players.length ? 0 : prevData.playerTurn + 1 }))
     }
     const ShowRaiseMenu = () => {
         setRaiseMenuOpen(prev => !prev)
     }
     const Raise = (raiseValue) => {
         let bet = players[gameData.playerTurn].raise(raiseValue)
-        setPlayers(players => [...players])
-        setGameData(prevData => ({ ...prevData, pot: prevData.pot + bet,lastBetter:prevData.playerTurn }))
-        setRaiseMenuOpen(prev => !prev)
+        if (raiseValue > gameData.currentBet && bet) {
+            setPlayers(players => [...players])
+            setGameData(prevData => ({ ...prevData, pot: prevData.pot + bet, lastBetter: prevData.playerTurn, playerTurn: prevData.playerTurn + 1 === players.length ? 0 : prevData.playerTurn + 1, currentBet: raiseValue }))
+            setRaiseMenuOpen(prev => !prev)
+        }
+    }
+    const Check = () => {
+        setGameData(prevData => ({ ...prevData, playerTurn: prevData.playerTurn + 1 === players.length ? 0 : prevData.playerTurn + 1 }))
+    }
+    const Fold = () => {
+        players[gameData.playerTurn].fold()
     }
     useEffect(() => {
         if (shuffledDeckOfCards.length > 0) {
@@ -92,25 +114,44 @@ function Poker() {
                 newPlayer.stack = STARTING_STACK
                 tempPlayersArray.push(newPlayer)
             }
+            let tempInGameCards = []
+            for (let i = 0; i < 5; i++) {
+                tempInGameCards.push(shuffledDeckOfCards.shift())
+            }
+            setGameData(prevData => ({ ...prevData, inGameCards: tempInGameCards }))
             setPlayers(tempPlayersArray)
         }
     }, [shuffledDeckOfCards])
     useEffect(() => {
         if (!isGameStartedRef.current && players.length > 0) {
-            // let smallBlind = Math.floor(Math.random() * (players.length))
-            // let bigBlind = smallBlind == players.length - 1 ? 0 : smallBlind + 1
-            // setGameData(prevData => ({ ...prevData, smallBlind: smallBlind, bigBlind: bigBlind })
-            // players[smallBlind].call(SMALL_BLIND)
-            // players[bigBlind].call(BIG_BLIND)
-            let n = 4
-            setGameData(prevData => ({ ...prevData, smallBlind: n, bigBlind: n+1 }))
-            players[n].call(SMALL_BLIND)
-            players[n+1].call(BIG_BLIND)
-            setGameData(prevData => ({ ...prevData, playerTurn: 0,lastBetter:0, currentBet: BIG_BLIND, pot: SMALL_BLIND + BIG_BLIND }))
+            let smallBlind = Math.floor(Math.random() * (players.length))
+            setSmallBlind(smallBlind)
+            let bigBlind = smallBlind === players.length - 1 ? 0 : smallBlind + 1
+            let playerTurn = bigBlind === players.length - 1 ? 0 : bigBlind + 1
+            setGameData(prevData => ({ ...prevData, smallBlind: smallBlind, bigBlind: bigBlind }))
+            players[smallBlind].call(SMALL_BLIND)
+            players[bigBlind].call(BIG_BLIND)
+            setGameData(prevData => ({ ...prevData, playerTurn: playerTurn, lastBetter: bigBlind + 1 === players.length ? 0 : bigBlind + 1, currentBet: BIG_BLIND, pot: SMALL_BLIND + BIG_BLIND }))
             isGameStartedRef.current = true
         }
     }, [players])
+    useEffect(() => {
 
+    }, [gameData.playerTurn])
+    useEffect(() => {
+        if (gameData.turn === 1) {
+
+        }
+        if (gameData.turn === 2) {
+
+        }
+        if (gameData.turn === 3) {
+
+        }
+        if (gameData.turn === 4) {
+
+        }
+    }, [gameData.turn])
     return (
         <div className={`flex flex-col items-center h-full pb-28 xl:pb-0`}>
             <p className="text-5xl text-center lg:fixed absolute top-0 z-20 flex items-center h-20 max-lg:m-6 z-20">Texas Hold'em Poker</p>
@@ -120,7 +161,7 @@ function Poker() {
                     <button onClick={startGame}>
                         Start the game
                     </button>
-                    <select name="number of players" id="number of players" className="text-black" ref={numberOfPlayersRef} value="6">
+                    <select name="number of players" id="number of players" className="text-black" ref={numberOfPlayersRef}>
                         <option value="2">2 players</option>
                         <option value="3">3 players</option>
                         <option value="4">4 players</option>
@@ -130,31 +171,47 @@ function Poker() {
                 </div>
                 {/* } */}
                 <div className="player1 bottom-[1.5em] right-[3em] flex gap-4 [&>button]:h-16 [&>button]:w-40 text-2xl absolute">
-                    <button className="btn">Fold</button>
-                    {gameData.currentBet > players[0]?.bet ?
+                    <button className="btn" onClick={Fold}>Fold</button>
+                    {gameData.currentBet > players[gameData.playerTurn]?.bet ?
                         <button className="btn" onClick={Call}>Call</button> :
-                        <button className="btn">Check</button>}
-                    <button className="btn" onClick={ShowRaiseMenu}>Raise</button>
+                        <button className="btn" onClick={Check}>Check</button>}
+                    <>
+                        {players.length > 0 && raiseMenuOpen &&
+                            <div className="flex flex-col items-center justify-center absolute bg-red-800 w-40 h-60 z-10 text-white right-0 bottom-16 rounded-t-lg">
+                                <h1>
+                                    ${raiseValue}
+                                </h1>
+                                <input type="range" min={gameData.currentBet + 20} max={players[gameData.playerTurn].stack + players[gameData.playerTurn].bet} step={20} className="" value={raiseValue} onInput={(e) => {
+                                    setRaiseValue(e.target.value)
+                                }} onMouseUp={(e) => {
+                                    Raise(Number(e.target.value))
+                                }} orient='vertical' />
+                            </div>}
+                        <button className="btn" onClick={ShowRaiseMenu}>Raise</button>
+                    </>
                 </div>
-                {players.length > 0 && raiseMenuOpen &&
-                    <div className="flex flex-col items-center absolute right-10 bottom-10 bg-white w-40 h-60 z-10 text-black">
-                        <input type="range" min="0" max={players[0].stack} className="" onInput={(e) => {
-                            setRaiseValue(e.target.value)
-                        }} onMouseUp={(e) => {
-                            Raise(Number(e.target.value))
-                        }} />
-                        {raiseValue}
-                    </div>}
+
                 <div className="[&>div]:absolute">
                     {players?.map((player, index) =>
                         <PlayerSetup key={index} position={position[index]} player={player} index={index} bigBlind={gameData.bigBlind} smallBlind={gameData.smallBlind} />
                     )}
                 </div>
                 <div className="flex justify-center scale-[70%]  left-[39em] top-[24em] w-full  justify-center  gap-4 text-4xl">
-                    <>Pot: ${gameData.pot}</>
-                    <HiddenCard className='' />
-                    <HiddenCard className='' />
-                    <HiddenCard className='' />
+                    <>Pot: ${gameData.pot}</><br />
+                    active: {gameData.playerTurn}<br />
+                    turn: {gameData.turn}
+                    {gameData.turn < 1 ?
+                        <>
+                            <HiddenCard className='' />
+                            <HiddenCard className='' />
+                            <HiddenCard className='' />
+                        </> :
+                        <>
+                            {/* <Card suit={gameData.inGameCards[0].suit} symbol={gameData.inGameCards[0].symbol} />
+                            <Card suit={gameData.inGameCards[1].suit} symbol={gameData.inGameCards[1].symbol} />
+                            <Card suit={gameData.inGameCards[2].suit} symbol={gameData.inGameCards[2].symbol} /> */}
+                        </>
+                    }
                     <HiddenCard className='' />
                     <HiddenCard className='' />
                 </div>

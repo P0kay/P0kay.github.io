@@ -10,23 +10,30 @@ export class Player {
         this.hand.push(card)
     }
     call(currentBet) {
-        if (this.stack >= currentBet) {
+        let betValue
+        if (this.stack >= currentBet - this.bet) {
+            betValue = currentBet - this.bet
+            this.stack -= betValue
             this.bet = currentBet
-            this.stack -= currentBet
         }
         else {
-            this.bet = this.stack
+            betValue = this.stack
+            this.bet += this.stack
             this.stack = 0
         }
-        return this.bet
+        return betValue
     }
-    fold(currentBet) {
+    fold() {
 
     }
     raise(raiseValue) {
-        this.bet = raiseValue
-        this.stack -= raiseValue
-        return this.bet
+        if (raiseValue <= this.stack + this.bet) {
+            let betValue = raiseValue - this.bet
+            this.stack -= betValue
+            this.bet = raiseValue
+            return betValue
+        }
+        return false
     }
     check(currentBet) {
         return currentBet === 0

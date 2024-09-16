@@ -23,7 +23,7 @@ function PlayerSetup({ position, player, index, smallBlind, bigBlind }) {
                         {smallBlind === index && 'SMALL BLIND'}
                     </div>
                     <div className="text-xl">
-                        ${player.stack}
+                        {player.stack>0?`$${player.stack}`:"ALL IN"}
                     </div>
                 </div>
             </div>

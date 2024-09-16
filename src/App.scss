@@ -19,6 +19,13 @@ body {
         min-height: calc(100vh - 5rem);
       }
     }
+    input[type="range"][orient="vertical"] {
+      writing-mode: vertical-lr;
+      direction: rtl;
+      appearance: slider-vertical;
+      width: 16px;
+      vertical-align: bottom;
+    }
   }
 }
 ::-webkit-scrollbar {
