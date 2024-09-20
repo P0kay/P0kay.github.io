@@ -3,6 +3,7 @@ export class Player {
     stack = 0
     hand = []
     bet = 0
+    folded = false
     constructor(username) {
         this.username = username
     }
@@ -24,7 +25,7 @@ export class Player {
         return betValue
     }
     fold() {
-
+        this.folded = true
     }
     raise(raiseValue) {
         if (raiseValue <= this.stack + this.bet) {
@@ -37,5 +38,10 @@ export class Player {
     }
     check(currentBet) {
         return currentBet === 0
+    }
+    newRound(){
+        this.hand = []
+        this.bet = 0
+        this.folded = false
     }
 }
